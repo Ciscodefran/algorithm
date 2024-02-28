@@ -17,7 +17,7 @@ fn main() {
     }
     persons.sort_by(|a, b| a.age.cmp(&b.age));
     let mut out = BufWriter::new(io::stdout());
-    persons.iter().for_each(|p| {
+    persons.iter().for_each(|p| { //
         writeln!(out, "{} {}", p.age, p.name).unwrap();
     });
 }
