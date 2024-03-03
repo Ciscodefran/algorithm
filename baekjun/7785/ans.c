@@ -8,11 +8,7 @@ typedef struct _NODE {
   struct _NODE *Left;
   struct _NODE *Right;
 } NODE;
-int compare(const void *a, const void *b) {
-  return strcmp((char *)a, (char *)b);
-}
 void makeNode(NODE *p, char *name, char status) {
-  printf("makeNode: %s %c\n", name, status);
   p = (NODE *)malloc(sizeof(NODE));
   strcpy(p->name, name);
   p->status = status;
@@ -24,11 +20,9 @@ void insert(NODE *root, char *name, char status) {
   if (root == NULL) {
     makeNode(root, name, status);
   } else {
-    printf("insert: %s %c\n", name, status);
     NODE *cur = root;
     while (1) {
       int cmp = strcmp(cur->name, name);
-      printf("name cmp: %s %d\n", cur->name, cmp);
       if (cmp > 0) {
         if (cur->Left == NULL) {
           makeNode(cur->Left, name, status);
@@ -52,9 +46,7 @@ void insert(NODE *root, char *name, char status) {
 void recursive_traverse(NODE *ptr) {
   if (ptr != NULL) {
     recursive_traverse(ptr->Left);
-    if (ptr->status == 'e') {
-      printf("%s\n", ptr->name);
-    }
+    printf("%s\n", ptr->name);
     recursive_traverse(ptr->Right);
   }
 }
