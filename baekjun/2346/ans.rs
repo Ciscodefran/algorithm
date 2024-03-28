@@ -7,6 +7,17 @@ struct Node {
     back: *mut Node,
 }
 
+impl Node {
+    fn new(number: u32, value: i32) -> Node {
+        Node {
+            number: number,
+            value: value,
+            front: std::ptr::null_mut(),
+            back: std::ptr::null_mut(),
+        }
+    }
+}
+
 fn main() {
     let buf = io::read_to_string(io::stdin()).unwrap();
     let mut iter = buf.split_whitespace().map(|x| x.parse::<i32>().unwrap());
@@ -31,13 +42,9 @@ fn main() {
                 break;
             }
         }
-        let node: *mut Node = &mut Node {
-            number: (i + 1) as u32,
-            value: iter.next().unwrap(),
-            front: prev,
-            back: std::ptr::null_mut(),
-        };
+        let node = Node::new((i + 1) as u32, iter.next().unwrap());
         unsafe {
+            (*node).front = prev;
             (*prev).back = node;
         }
         prev = node;
