@@ -17,7 +17,7 @@ int main() {
         sum -= n;
       }
       if (c == '-') {
-        flag = !flag;
+        flag = false;
       }
       n = 0;
     } else {
