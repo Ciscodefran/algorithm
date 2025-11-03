@@ -1,24 +1,26 @@
-#include <algorithm>
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
 int main() {
-  int n;
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+  int n, ans = 1;
   cin >> n;
-  vector<int> v(n), m(n, 1);
+  vector<int> v(n, 0), dp(n, 1);
   for (int& i : v) {
     cin >> i;
   }
-  for (int i = 0; i < n; ++i) {
+
+  for (int i = 1; i < n; ++i) {
     for (int j = 0; j < i; ++j) {
-      if (v[j] < v[i]) {
-        m[i] = max(m[i], m[j] + 1);
+      if (v[i] > v[j]) {
+        dp[i] = max(dp[i], dp[j] + 1);
+        ans = max(dp[i], ans);
       }
     }
   }
-  sort(m.begin(), m.end());
-  cout << m[n - 1];
+  cout << ans << endl;
   return 0;
 }
