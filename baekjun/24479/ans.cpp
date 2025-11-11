@@ -1,28 +1,39 @@
 #include <iostream>
+#include <queue>
 #include <vector>
 using namespace std;
 
-void dfs(vector<vector<bool>>& v, vector<bool>& visited, int r, int n) {
-  cout << r << '\n';
+int cnt = 0;
+
+void dfs(int r, vector<bool>& visited, vector<priority_queue<int>>& v,
+         vector<int>& order) {
+  if (visited[r]) return;
   visited[r] = true;
-  for (int i = 1; i <= n; ++i) {
-    if (v[r][i] && !visited[i]) {
-      dfs(v, visited, i, n);
-    }
+  order[r - 1] = ++cnt;
+  while (!v[r].empty()) {
+    auto node = v[r].top();
+    v[r].pop();
+    dfs(-node, visited, v, order);
   }
 }
+
 int main() {
   ios::sync_with_stdio(false);
   cin.tie(nullptr);
-  int n, m, r;
+  int n, m, r, u, v;
   cin >> n >> m >> r;
-  vector<vector<bool>> v(n + 1, vector<bool>(n + 1, 0));
-  for (int i = 0; i < m; ++i) {
-    int x, y;
-    cin >> x >> y;
-    v[y][x] = v[x][y] = true;
-  }
   vector<bool> visited(n + 1, false);
-  dfs(v, visited, r, n);
+  vector<int> order(n, 0);
+  vector<priority_queue<int>> nears(n + 1, priority_queue<int>());
+  visited[0] = true;
+  for (int i = 0; i < m; ++i) {
+    cin >> u >> v;
+    nears[v].push(-u);
+    nears[u].push(-v);
+  }
+  dfs(r, visited, nears, order);
+  for (auto i : order) {
+    cout << i << '\n';
+  }
   return 0;
 }
